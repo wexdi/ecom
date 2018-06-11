@@ -13,10 +13,10 @@ class ModelAdmin(admin.ModelAdmin):
         obj = super(ModelAdmin, self).save_form(request, form, change)
 
         if hasattr(obj, 'updated_by'):
-            obj.updated_by = unicode(request.user)
+            obj.updated_by =request.user
 
         if hasattr(obj, 'created_by') and not obj.created_by:
-            obj.created_by = unicode(request.user)
+            obj.created_by = request.user
 
         return obj
 
