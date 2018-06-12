@@ -19,7 +19,7 @@ def send_mail(subject, message, recipients, is_html):
     if not hasattr(settings, 'EMAIL_HOST') or not hasattr(settings, 'EMAIL_PORT'):
         raise ImproperlyConfigured('Email server configurations not found in django settings.py.')
 
-    from_email = '%s <noreply@%s>' % (sys_configs['SITE_NAME'], sys_configs['DOMAIN'])
+    from_email = 'support@wexdi.com'
     msg = EmailMessage(subject, message, from_email, recipients)
     if is_html:
         msg.content_subtype = "html"

@@ -137,12 +137,12 @@ class ForgotPasswordView(CatalogBaseView):
                 msg_subject = get_template("accounts/email/password_reset_subject.txt").render(context)
                 context = Context({'user': user, 'SITE_NAME': self.get_config('SITE_NAME'), 'DOMAIN': self.get_config('DOMAIN')})
                 msg_text = get_template("accounts/email/password_reset.html").render(context)
-                to_email = '%s <%s>' % (user.get_full_name(), user.email)
+                to_email = '%s' % (user.email)
                 send_mail(msg_subject, msg_text, [to_email], True)
 
                 success = 'Password reset intructions has been sent to your email address.'
             except DoorstepError as e:
-                error = e.message
+                error = "some think went wrong"
 
         return self.get(request, error=error, success=success)
 
@@ -170,7 +170,7 @@ class PasswordResetView(CatalogBaseView):
                 User.objects.reset_password(user_id, reset_code, data['password'])
                 success = 'Your password has been successfully reset!'
             except DoorstepError as e:
-                error = e.message
+                error = "some think went bad"
 
         return super(PasswordResetView, self).get(request, form=form, user_id=user_id, reset_code=reset_code,
                                                   error=error, success=success)
@@ -199,6 +199,6 @@ class ChangePasswordView(CatalogBaseView):
                 User.objects.change_password(request.user, data['current_password'], data['password'])
                 success = 'Your password has been successfully changed!'
             except DoorstepError as e:
-                error = e.message
+                error = e
 
         return super(ChangePasswordView, self).get(request, form=form, error=error, success=success)
